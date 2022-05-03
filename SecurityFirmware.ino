@@ -103,7 +103,7 @@ if (stayawaymode == 1){	// Away Mode
   
   photoresistor= analogRead(A0);
 
-    if (photoresistor >= 100){     		//Door sensor
+    if (photoresistor <= 100){     		//Door sensor
       
     Serial.println("Door is open");		//Resistor uncovered "Open"
       delay(1000);
@@ -130,7 +130,7 @@ if (stayawaymode == 2){ // Stay Mode
   
   photoresistor= analogRead(A0);
 
-    if (photoresistor >= 100){     		//Door sensor
+    if (photoresistor <= 100){     		//Door sensor
       
     Serial.println("Door is open");		//Resistor uncovered "Open"
       delay(1000);

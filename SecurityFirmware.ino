@@ -67,8 +67,9 @@ if (stayawaymode == 0){	// Disarmed Mode
 
 
 if (stayawaymode == 1){	// Away Mode 
-  digitalWrite(2, HIGH);	//Red LED on
-	doormotor.write(0);		//Door Closed
+    digitalWrite(7, LOW); //Green LED is off
+	digitalWrite(2, HIGH);	//Red LED on
+	  doormotor.write(0);	//Door Closed
 	
 	if(digitalRead(4)==LOW && digitalRead(3) == LOW){   //Disarm code
 		stayawaymode = 0;
@@ -129,6 +130,7 @@ if (stayawaymode == 1){	// Away Mode
 
 
 if (stayawaymode == 2){ // Stay Mode
+  digitalWrite(7, LOW); //Green LED is off
   digitalWrite(2, HIGH);	//Red LED on
 	doormotor.write(0);		//Door Closed
 	

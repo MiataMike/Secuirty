@@ -68,6 +68,12 @@ void loop() {
   
 //STAY AND AWAY SETTINGS
 
+if (stayawaymode == 0){	// Disarmed Mode
+}
+if (stayawaymode == 1){	// Away Mode 
+}
+if (stayawaymode == 2){ // Stay Mode
+}
 if(digitalRead(4)==LOW){   //Away Button Settings
   buttonaway=!buttonaway;
   delay(2);

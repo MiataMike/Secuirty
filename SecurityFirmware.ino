@@ -5,6 +5,8 @@
 Servo sensormotor;
 Servo doormotor;
 
+//defining modes
+int stayawaymode = 0;
 
 //definingbuttons
 bool buttonstay = false;
@@ -45,52 +47,26 @@ pinMode(10, OUTPUT);
 }
 
 void loop() {
-
-//PHOTOCELL AND ALARM
-  
-  photoresistor= analogRead(A0);
-
-    if (photoresistor >= 100){     		//Door sensor
-      
-    Serial.println("Door is open");		//Resistor uncovered "Open"
-      delay(1000);
-      
-    tone(10,120,3000);					//Alarm sounded
-      delay(2000);
-      
-      
-  }else{
-    Serial.println("Door is closed");		//Resistor Covered "Closed"
-    delay(1000);
-  }
-  
-  
   
 //STAY AND AWAY SETTINGS
 
 if (stayawaymode == 0){	// Disarmed Mode
-}
-if (stayawaymode == 1){	// Away Mode 
-}
-if (stayawaymode == 2){ // Stay Mode
-}
-if(digitalRead(4)==LOW){   //Away Button Settings
-  buttonaway=!buttonaway;
-  delay(2);
- }
-
-if(digitalRead(3)==LOW){  //Stay Button Settings
-  buttonstay=!buttonstay;
-  delay(2); 
-}
-
- if (buttonstay==true){ //Stay Mode Activated
-   
   digitalWrite(7, HIGH); //Green LED is on
-  
-  doormotor.write(0); //Door shuts
-   
-   for(angle1 = 1; angle1 <=180; angle1 +=1){  //SensorMotor fluctuates
+  digitalWrite(2, LOW);		//Red LED off
+   doormotor.write(90);		//Door open
+}
+
+
+if (stayawaymode == 1){	// Away Mode 
+  digitalWrite(2, HIGH);	//Red LED on
+	doormotor.write(0);		//Door Closed
+	
+	if(digitalRead(4)==LOW){   //Away Button Settings
+	buttonaway=!buttonaway;
+	delay(2);
+	}
+	
+	for(angle1 = 1; angle1 <=180; angle1 +=1){  //SensorMotor fluctuates
     sensormotor.write(angle1);			      //between 0 and 180
  
   delay(30);   
@@ -117,17 +93,50 @@ if(digitalRead(3)==LOW){  //Stay Button Settings
   Serial.print("Location of Intruder (cm): ");  //Print reading
   Serial.println(distance);
    
-  }else{					//Green LED off
-  digitalWrite(7, LOW);
-  sensormotor.write(0); 	//Sensor motor off
-  }
+   //PHOTOCELL AND ALARM
   
+  photoresistor= analogRead(A0);
 
- if (buttonaway==true){		//Away Mode activated
+    if (photoresistor >= 100){     		//Door sensor
+      
+    Serial.println("Door is open");		//Resistor uncovered "Open"
+      delay(1000);
+      
+    tone(10,120,3000);					//Alarm sounded
+      delay(2000);
+      
+      
+  }else{
+    Serial.println("Door is closed");		//Resistor Covered "Closed"
+    delay(1000);
+  }
+}
+
+
+if (stayawaymode == 2){ // Stay Mode
   digitalWrite(2, HIGH);	//Red LED on
 	doormotor.write(0);		//Door Closed
+	
+	if(digitalRead(3)==LOW){  //Stay Button Settings
+	buttonstay=!buttonstay;
+	delay(2); 
+	}
+	//PHOTOCELL AND ALARM
+  
+  photoresistor= analogRead(A0);
+
+    if (photoresistor >= 100){     		//Door sensor
+      
+    Serial.println("Door is open");		//Resistor uncovered "Open"
+      delay(1000);
+      
+    tone(10,120,3000);					//Alarm sounded
+      delay(2000);
+      
+      
   }else{
-  digitalWrite(2, LOW);		//Red LED off
-   doormotor.write(90);		//Door open
+    Serial.println("Door is closed");		//Resistor Covered "Closed"
+    delay(1000);
   }
+}
 }

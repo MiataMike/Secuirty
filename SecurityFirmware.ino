@@ -54,6 +54,13 @@ if (stayawaymode == 0){	// Disarmed Mode
   digitalWrite(7, HIGH); //Green LED is on
   digitalWrite(2, LOW);		//Red LED off
    doormotor.write(90);		//Door open
+
+	if(digitalRead(4)==LOW){   //Away Button Settings
+	stayawaymode = 1;
+	}
+	if(digitalRead(3)==LOW){  //Stay Button Settings
+	stayawaymode = 2;
+	}
 }
 
 
@@ -61,9 +68,8 @@ if (stayawaymode == 1){	// Away Mode
   digitalWrite(2, HIGH);	//Red LED on
 	doormotor.write(0);		//Door Closed
 	
-	if(digitalRead(4)==LOW){   //Away Button Settings
-	buttonaway=!buttonaway;
-	delay(2);
+	if(digitalRead(4)==LOW && digitalRead(3) == LOW){   //Disarm code
+	stayawaymode = 0;
 	}
 	
 	for(angle1 = 1; angle1 <=180; angle1 +=1){  //SensorMotor fluctuates
@@ -117,9 +123,8 @@ if (stayawaymode == 2){ // Stay Mode
   digitalWrite(2, HIGH);	//Red LED on
 	doormotor.write(0);		//Door Closed
 	
-	if(digitalRead(3)==LOW){  //Stay Button Settings
-	buttonstay=!buttonstay;
-	delay(2); 
+	if(digitalRead(4)==LOW && digitalRead(3) == LOW){   //Disarm code
+	stayawaymode = 0;
 	}
 	//PHOTOCELL AND ALARM
   

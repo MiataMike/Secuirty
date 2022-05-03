@@ -25,6 +25,8 @@ long distance;
 //defining door angle
 long angle1=0;
 
+//defining door scan direction
+bool anglegoingup = true;
 
 void setup() {
 
@@ -69,21 +71,28 @@ if (stayawaymode == 1){	// Away Mode
 	doormotor.write(0);		//Door Closed
 	
 	if(digitalRead(4)==LOW && digitalRead(3) == LOW){   //Disarm code
-	stayawaymode = 0;
+		stayawaymode = 0;
 	}
 	
-	for(angle1 = 1; angle1 <=180; angle1 +=1){  //SensorMotor fluctuates
-    sensormotor.write(angle1);			      //between 0 and 180
- 
-  delay(30);   
-   }
+	if(anglegoingup == true){
+		angle1 += 30;
+	}
+	else{
+		angle1 -= 30;
+	}
+	
+	if(angle1 >=180){  //SensorMotor fluctuates
+		angle1=180;
+		anglegoingup = false;
+	}
+	
+	if( angle1 <= 0){
+		angle1 = 0;
+		anglegoingup = true;
+	}
+	
+	sensormotor.write(angle1);			      //between 0 and 180
 
-    for(angle1 = 180; angle1 >=1; angle1 -=1){
-    sensormotor.write(angle1);
-  
-  delay(30);  
-      
-   }
   
   digitalWrite(trigPin, LOW);  //Sensor readings
   delayMicroseconds(5);
